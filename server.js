@@ -74,10 +74,10 @@ app.get("/employees/add", (req, res) => {
 });
 
 app.get("/images", (req, res) => {
-    // fs.readdir("./public/images/uploaded", function(err, items) {
-    //     res.json({ images: items });
-    // });
-    res.render("images", { images: items });
+    fs.readdir("./public/images/uploaded", function(err, items) {
+        res.render("images", { images: items });
+    });
+    //res.render("images", { images: items });
 });
 
 app.get("/employees", (req, res) => {
