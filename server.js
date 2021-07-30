@@ -92,15 +92,13 @@ app.get("/employees", (req, res) => {
         }).catch((err) => {
             res.render("employees", { message: "no results" });
         });
-    }
-    // else if (req.query.manager) {
-    //     data.getEmployeesByManager(req.query.manager).then((data) => {
-    //         res.json(data);
-    //     }).catch((err) => {
-    //         res.json({ message: "no results" });
-    //     });
-    // }
-    else {
+    } else if (req.query.manager) {
+        data.getEmployeesByManager(req.query.manager).then((data) => {
+            res.render("employees", { employees: data });
+        }).catch((err) => {
+            res.render("employees", { message: "no results" });
+        });
+    } else {
         data.getAllEmployees().then((data) => {
             res.render("employees", { employees: data });
         }).catch((err) => {
@@ -116,12 +114,6 @@ app.get("/employee/:empNum", (req, res) => {
         res.render("employee", { message: "no results" });
     });
 });
-
-// app.get("/managers", (req, res) => {
-//     data.getManagers().then((data) => {
-//         res.json(data);
-//     });
-// });
 
 app.get("/departments", (req, res) => {
     data.getDepartments().then((data) => {
@@ -140,9 +132,9 @@ app.post("/images/add", upload.single("imageFile"), (req, res) => {
 });
 
 app.post("/employee/update", (req, res) => {
-    data.updateEmployee(req.body)
-        .then(res.redirect("/employees"));
-    // console.log(req.body);
+    data.updateEmployee(req.body).then(() => {
+        res.redirect("/employees");
+    });
 });
 
 app.use((req, res) => {
